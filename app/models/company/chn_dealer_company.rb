@@ -1,4 +1,4 @@
-class ChnSecurityCompany < ChnCompany
+class ChnDealerCompany < ChnCompany
   field :license_code, type: String
   field :security_business, type: String
 end
