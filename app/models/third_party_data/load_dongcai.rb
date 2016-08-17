@@ -112,11 +112,8 @@ class LoadDongcai
   def load_dealer_relations
     import_number = 0
     update_number = 0
-    dealer_relations = OrgaBiOrgparty.all
+    dealer_relations = OrgaBiOrgparty.where(PARTYTYPE: ["06", "07", "08"])
     dealer_relations.each do |e|
-      if %w{06 07 08}.include?(e.PARTYTYPE) == false
-        next
-      end
       c = Company.where(dongcai_code: e.COMPANYCODE).first
       d = Company.where(dongcai_code: e.PARTYCODE).first
       s = c.securities.where(_type: "NeeqSecurity").first if c.present?
@@ -132,7 +129,9 @@ class LoadDongcai
       end
       dr.update_attributes(
         {
-
+          type: e.PARTYTYPE.to_i,
+          start_date: e.NEWSTARTDATE.nil? ? nil : Date.new(e.NEWSTARTDATE.year, e.NEWSTARTDATE.month, e.NEWSTARTDATE.day),
+          end_date: e.NEWENDDATE.nil? ? nil : Date.new(e.NEWENDDATE.year, e.NEWENDDATE.month, e.NEWENDDATE.day)
         }
       )
     end
