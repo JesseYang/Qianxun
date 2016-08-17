@@ -7,5 +7,5 @@ class Competition
 
   belongs_to :prospectus
   belongs_to :company
-  belonsg_to :competitor, class_name: "Company", inverse_of: "competitor_competitions"
+  belongs_to :competitor, class_name: "Company", inverse_of: "competitor_competitions"
 end

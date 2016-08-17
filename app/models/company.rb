@@ -17,6 +17,6 @@ class Company
   has_many :risks
   has_many :buisness_models
   has_many :competitions
-  has_many :competitor_competitions, class_name: "competition", inverse_of: :competitor
+  has_many :competitor_competitions, class_name: "Competition", inverse_of: :competitor
   has_many :missions
 end

@@ -7,6 +7,6 @@ class ChnCompany < Company
   field :legal_person, type: String
   field :reg_code, type: String
   field :social_credit_code, type: String
-  field :business_code, type: String
+  field :business_scope, type: String
   field :location_code, type: String
 end
