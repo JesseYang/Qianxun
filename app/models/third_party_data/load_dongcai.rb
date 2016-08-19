@@ -83,7 +83,7 @@ class LoadDongcai
     true
   end
 
-  def load_dealers
+  def self.load_dealers
     import_number = 0
     update_number = 0
     dealers = SemkOcComppro.all
@@ -109,7 +109,7 @@ class LoadDongcai
     true
   end
 
-  def load_dealer_relations
+  def self.load_dealer_relations
     import_number = 0
     update_number = 0
     dealer_relations = OrgaBiOrgparty.where(PARTYTYPE: ["06", "07", "08"])
@@ -134,6 +134,26 @@ class LoadDongcai
           end_date: e.NEWENDDATE.nil? ? nil : Date.new(e.NEWENDDATE.year, e.NEWENDDATE.month, e.NEWENDDATE.day)
         }
       )
+    end
+  end
+
+  def self.load_company_industries
+    zjh_data = LicoImInchg.where(INDTYPE: LicoImInchg::ZHENGJIANHUI, ISNEW: "1")
+    zjh_data.each do |e|
+      industry_name = e.INDSORT
+      c = Company.where(dongcai_code: e.COMPANYCODE).first
+      i = Industry.where(industry_name: e.INDSORT, standard: Industry::ZHENGJIANHUI).first
+      next if c.nil? || i.nil?
+      ci = CompanyIndustry.create(company_id: c.id, industry_id: i.id)
+    end
+
+    inv_data = LicoImInchg.where(INDTYPE: "014", ISNEW: "1")
+    inv_data.each do |e|
+      industry_name = e.INDSORT
+      c = Company.where(dongcai_code: e.COMPANYCODE).first
+      i = Industry.where(industry_name: e.INDSORT, standard: Industry::INVESTMENT).first
+      next if c.nil? || i.nil?
+      ci = CompanyIndustry.create(company_id: c.id, industry_id: i.id)
     end
   end
 end
