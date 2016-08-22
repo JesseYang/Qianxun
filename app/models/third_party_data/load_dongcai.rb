@@ -25,6 +25,7 @@ class LoadDongcai
       c = ChnCompany.where(dongcai_code: e.COMPANYCODE).first
       # c = c.nil? ? ChnCompany.create(dongcai_code: e.COMPANYCODE) : c
       info = { # update data from dongcai record to our record
+          dongcai_code: e.COMPANYCODE,
           name: e.COMPANYNAME,
           chn_name: e.COMPANYNAME,
           abbrev: c.try(:abbrev).blank? ? e.COMPANYSNAME : "#{c.abbrev},#{e.COMPANYSNAME}",
@@ -40,11 +41,13 @@ class LoadDongcai
           _type: "ChnCompany"
         }
       if c.nil?
-        import_number = import_number + 1
+        info[:created_at] = Time.now,
+        info[:updated_at] = Time.now,
         batch_info << info
+        import_number = import_number + 1
       else
-        update_number = update_number + 1
         c.update_attributes(info)
+        update_number = update_number + 1
       end
     end
     ChnCompany.collection.insert_many(batch_info)
@@ -61,16 +64,32 @@ class LoadDongcai
     import_number = 0
     update_number = 0
     securities = CdsySecucode.where(TRADEMARKET: "新三板")
+    batch_info = []
     securities.each do |e|
       s = Security.where(dongcai_code: e.SECURITYCODE).first
+      info = {
+        name: e.SECURITYNAME,
+        code: e.SECURITYCODE,
+        list_date: e.LISTDATE,
+        delist_date: e.ENDDATE,
+        _type: "NeeqSecurity",
+        exchange_id: exchange.id,
+      }
       if s.nil?
         c = Company.where(dongcai_code: e.COMPANYCODE).first
-        s = c.securities.create(_type: "NeeqSecurity")
-        s.exchange = exchange
+        puts e.COMPANYCODE
+        # s = c.securities.create(_type: "NeeqSecurity")
+        info[:company_id] = c.id
+        info[:created_at] = Time.now,
+        info[:updated_at] = Time.now,
+        batch_info << info
+        # s.exchange = exchange
         import_number = import_number + 1
       else
         update_number = update_number + 1
+        s.update_attributes(info)
       end
+=begin
       s.update_attributes(
         {
           name: e.SECURITYNAME,
@@ -79,7 +98,9 @@ class LoadDongcai
           delist_date: e.ENDDATE
         }
       )
+=end
     end
+    NeeqSecurity.collection.insert_many(batch_info)
     puts "import #{import_number}, update #{update_number}"
     true
   end
