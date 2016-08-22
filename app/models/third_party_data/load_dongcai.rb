@@ -1,63 +1,54 @@
 class LoadDongcai
 
   def self.load
-    load_record = LoadData.where(source: LoadData::DONGCAI).first
-    if load_record.nil?
-      LoadData.create(source: LoadData::DONGCAI)
-    end
+    @load_record = LoadData.where(source: LoadData::DONGCAI).first
 
     self.load_companies
     self.load_securities
     self.load_dealers
     self.load_dealer_relations
     self.load_company_industries
+
+    @load_record = @load_record || LoadData.create(source: LoadData::DONGCAI)
+    @load_record.touch
   end
 
   # read data from ORGA_BI_ORGBASEINFO(Dongcai), and save to ChnCompany
   def self.load_companies(number = -1)
-    cur_record_num = Company.count
     offset = 0
-    batch_size = 5000
     import_number = 0
-    while true
-      batch = OrgaBiOrgbaseinfo.limit(batch_size).offset(offset)
-      if batch.count == 0
-        break
-      end
-      batch_info = []
-      batch.each do |e|
-        # load or update this record
-        info = { # update data from dongcai record to our record
-            name: e.COMPANYNAME,
-            chn_name: e.COMPANYNAME,
-            # abbrev: c.abbrev.blank? ? e.COMPANYSNAME : "#{c.abbrev},#{e.COMPANYSNAME}",
-            abbrev: e.COMPANYSNAME,
-            country_code: "86",
-            organization_form: e.ORGFORM.to_i,
-            established_at: e.FOUNDDATE.nil? ? nil : Date.new(* e.FOUNDDATE.split('-').map { |ele| ele.to_i }),
-            reg_capital: e.REGCAPITAL.to_f,
-            legal_person: e.LEGREPRESENT,
-            reg_code: e.BLNUMB, # YingYeZhiZhao No.
-            business_scope: e.BUSINSCOPE,
-            location_code: e.CITY,
-            website: e.COMPWEB,
-            _type: "ChnCompany"
-          }
-        if cur_record_num == 0
-          batch_info << info
-        else
-          c = ChnCompany.where(dongcai_code: e.COMPANYCODE).first
-          c = c.nil? ? ChnCompany.create(dongcai_code: e.COMPANYCODE) : c
-          c.update_attributes(info)
-        end
-      end
-      ChnCompany.collection.insert_many(batch_info) if cur_record_num == 0
-      offset = offset + batch_size
-      import_number = import_number + batch.count
-      if number > 0 && import_number >= number
-        break
+    update_number = 0
+    batch = @load_record.nil? ? OrgaBiOrgbaseinfo.all : new_data = OrgaBiOrgbaseinfo.where(UPDATEDATE: @load_record.updated_at..Date.today)
+    batch_info = []
+    batch.each do |e|
+      # load or update this record
+      c = ChnCompany.where(dongcai_code: e.COMPANYCODE).first
+      # c = c.nil? ? ChnCompany.create(dongcai_code: e.COMPANYCODE) : c
+      info = { # update data from dongcai record to our record
+          name: e.COMPANYNAME,
+          chn_name: e.COMPANYNAME,
+          abbrev: c.try(:abbrev).blank? ? e.COMPANYSNAME : "#{c.abbrev},#{e.COMPANYSNAME}",
+          country_code: "86",
+          organization_form: e.ORGFORM.to_i,
+          established_at: e.FOUNDDATE.nil? ? nil : Date.new(* e.FOUNDDATE.split('-').map { |ele| ele.to_i }),
+          reg_capital: e.REGCAPITAL.to_f,
+          legal_person: e.LEGREPRESENT,
+          reg_code: e.BLNUMB, # YingYeZhiZhao No.
+          business_scope: e.BUSINSCOPE,
+          location_code: e.CITY,
+          website: e.COMPWEB,
+          _type: "ChnCompany"
+        }
+      if c.nil?
+        import_number = import_number + 1
+        batch_info << info
+      else
+        update_number = update_number + 1
+        c.update_attributes(info)
       end
     end
+    ChnCompany.collection.insert_many(batch_info)
+    puts "import #{import_number}, update #{update_number}"
     true
   end
 
@@ -74,7 +65,7 @@ class LoadDongcai
       s = Security.where(dongcai_code: e.SECURITYCODE).first
       if s.nil?
         c = Company.where(dongcai_code: e.COMPANYCODE).first
-        s = c.securities.create(type: "NeeqSecurity")
+        s = c.securities.create(_type: "NeeqSecurity")
         s.exchange = exchange
         import_number = import_number + 1
       else
