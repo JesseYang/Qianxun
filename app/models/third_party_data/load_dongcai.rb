@@ -41,8 +41,8 @@ class LoadDongcai
           _type: "ChnCompany"
         }
       if c.nil?
-        info[:created_at] = Time.now,
-        info[:updated_at] = Time.now,
+        info[:created_at] = Time.now
+        info[:updated_at] = Time.now
         batch_info << info
         import_number = import_number + 1
       else
