@@ -178,4 +178,12 @@ class LoadDongcai
       ci = CompanyIndustry.create(company_id: c.id, industry_id: i.id)
     end
   end
+
+  def self.load_reports
+    NeeqSecurity.all.each do |e|
+      infos = InfoAnRelcodesemk.where(SECURITYCODE: e.code)
+      info_code = infos.map { |e| e.INFOCODE }
+      InfoAnRelcolumnsemk.where(INFOCODE: info_code, COLUMNCODE: "001001001001001")
+    end
+  end
 end
