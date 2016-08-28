@@ -1,0 +1,16 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/welcome/index-bundle"
+  = stylesheet_link_tag "pages/welcome/index-bundle", :media => "all"
+
+- content_for :app_content do
+  #top-bar
+    =image_tag "logo.jpg", width: "50px", class: "logo-image"
+    #login-btn-wrapper
+      - if @current_user.present?
+        %a.login-btn.btn.btn-success{href: "javascript:void(0);"} 云端平台
+      - else
+        %a.login-btn.btn.btn-success{href: "javascript:void(0);"} 登录
+        %a.registrate-btn.btn.btn-success{href: "javascript:void(0);"} 注册 
+
+  #bottom-bar
+    #beian 京ICP备XXXXXXX

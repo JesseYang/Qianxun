@@ -1,0 +1,44 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+
+
+#top-bar {
+  padding: 10px 0;
+  .logo-image {
+    height: 50px;
+    margin-left: 50px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    @include inline-block;
+  }
+  background: #FAFAFA;
+  @include box-shadow(gray 0px 0px 5px);
+  border-bottom: 1px #CCCCCC solid;
+  border-top: 1px solid #E5E5E5;
+  #login-btn-wrapper {
+    @include inline-block;
+    float: right;
+    margin-right: 50px;
+    margin-top: 8px;
+    .login-btn {
+      margin-right: 10px;
+    }
+  }
+}
+
+#bottom-bar {
+  margin-top: 50px;
+  height: 100px;
+  background: #E5E5E5;
+  #beian {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: #888;
+    width: 200px;
+    text-align: center;
+    padding-top: 30px;
+  }
+}

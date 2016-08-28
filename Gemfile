@@ -2,6 +2,15 @@ source 'https://rubygems.org'
 
 gem 'mongoid', '~> 5.1.4'
 gem 'mysql2'
+gem 'watir'
+gem 'haml-rails'
+gem 'ezcrypto'
+gem 'handlebars_assets'
+gem 'kaminari'
+gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
+
+gem 'compass-rails'
+gem 'bootstrap-sass'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'

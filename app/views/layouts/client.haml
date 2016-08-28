@@ -1,0 +1,34 @@
+- content_for :app_head do
+  = stylesheet_link_tag "layouts/client-layout", :media => "all"
+  = javascript_include_tag "layouts/client-layout"
+  = yield :head
+- content_for :app_nav do
+  #teacher-navbar
+    .container-fluid
+      %ul.nav.pull-right
+        %li
+          - if @current_user.present?
+            %a.ef-dropdown-toggle{href: "#"}
+              = current_user.email
+              %b.caret
+            .ef-dropdown-menu.hide
+              - if current_user.admin
+                .ef-dropdown-item
+                  %a{href: "/admin/teachers", data: {method: "get"}} 管理员
+              .ef-dropdown-item
+                %a{href: "/teacher/settings/#{current_user.id.to_s}"} 个人设置
+              .ef-dropdown-item
+                %a{href: "/account/sessions/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
+          - else
+            %a.ef-dropdown-toggle{href: "#"}
+              帐号
+              %b.caret
+            .ef-dropdown-menu.hide
+              .ef-dropdown-item
+                %a{href: "/users/sign_in"} 登录
+              .ef-dropdown-item
+                %a{href: "/users/sign_up"} 注册
+- content_for :app_content do
+  = yield :content
+
+= render :template => 'layouts/application'
