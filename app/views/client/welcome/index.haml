@@ -12,5 +12,18 @@
         %a.login-btn.btn.btn-success{href: "javascript:void(0);"} 登录
         %a.registrate-btn.btn.btn-success{href: "javascript:void(0);"} 注册 
 
+  #search-wrapper
+    #search-box
+      #search-field-wrapper
+        %input#search-input.form-control{:placeholder => "企业名称、行业、概念等", :type => "text"}/
+      #search-btns-wrapper
+        %a#filter-btn.btn.btn-primary{href: "javascript:void(0);"} 条件筛选
+        %a#search-btn.btn.btn-primary{href: "javascript:void(0);"} 搜索
+    .clear-both
+    #tips
+      %a{href: "javascript:void(0);"} 创新层
+      %a{href: "javascript:void(0);"} 游戏
+      %a{href: "javascript:void(0);"} 餐饮旅游
+
   #bottom-bar
     #beian 京ICP备XXXXXXX
