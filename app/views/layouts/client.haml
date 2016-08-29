@@ -3,7 +3,7 @@
   = javascript_include_tag "layouts/client-layout"
   = yield :head
 - content_for :app_nav do
-  #teacher-navbar
+  #client-navbar
     .container-fluid
       %ul.nav.pull-right
         %li
@@ -30,5 +30,4 @@
                 %a{href: "/users/sign_up"} 注册
 - content_for :app_content do
   = yield :content
-
 = render :template => 'layouts/application'

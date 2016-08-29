@@ -1,0 +1,30 @@
+- content_for :head do
+  = stylesheet_link_tag "pages/client/sessions/new_registrate-bundle", :media => "all"
+  = javascript_include_tag "pages/client/sessions/new_registrate-bundle"
+
+- content_for :content do
+  .container
+    #regi-wrapper.col-sm-4.col-sm-offset-4.col-xs-10.col-xs-offset-1
+      = form_tag(new_registrate_client_sessions_path, id: "regi-form", method: "post", multipart: true) do
+        %fieldset
+          %legend 用户注册
+          .form-group
+            = label_tag :mobile_label, "手机"
+            = text_field_tag :mobile, "", :autofocus => true, class: "form-control"
+          #verify-code-input-wrapper.left
+            .form-group
+              = label_tag :verify_code_label, "验证码"
+              = text_field_tag :verify_code, "", :autofocus => true, class: "form-control"
+          #verify-code-get-wrapper.right
+            %a#verify-code-btn.right.btn.btn-primary{href: "javascript:void(0);"} 获取验证码
+          .clear-both
+          .form-group
+            = label_tag :password_label, "密码"
+            = text_field_tag :password, "", class: "form-control"
+          / .form-group
+          /   = label_tag :teacher_invite_code, "邀请码"
+          /   = text_field_tag :teacher_invite_code, "", class: "form-control"
+          .content
+            .login.right
+              = link_to "已有帐号，立即登录", new_client_session_path
+          = submit_tag "注册", class: "btn btn-primary"

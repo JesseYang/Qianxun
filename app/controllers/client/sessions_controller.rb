@@ -1,4 +1,9 @@
 class Client::SessionsController < Client::ApplicationController
+  layout "layouts/session"
+
+  def new_registrate
+    
+  end
 
   # show the index page
   def index

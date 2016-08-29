@@ -14,6 +14,7 @@
 #= require jquery_ujs
 #= require turbolinks
 #= require jquery-migrate-1.2.1.min
+#= require bootstrap-sprockets
 #= require_tree .
 
 $ ->

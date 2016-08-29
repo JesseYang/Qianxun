@@ -1,0 +1,39 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+
+
+#top-bar {
+  padding: 10px 0;
+  .logo-image {
+    height: 50px;
+    margin-left: 50px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    @include inline-block;
+  }
+  background: #FAFAFA;
+  @include box-shadow(gray 0px 0px 5px);
+  border-bottom: 1px #CCCCCC solid;
+  border-top: 1px solid #E5E5E5;
+}
+
+form {
+  margin-top: 20px;
+  position: relative;
+}
+
+.left {
+  float: left;
+  @include inline-block;
+}
+
+.right {
+  float: right;
+  @include inline-block;
+}
+
+.content {
+  @include clearfix;
+}

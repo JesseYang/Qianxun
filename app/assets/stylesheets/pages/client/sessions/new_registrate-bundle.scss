@@ -1,0 +1,12 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+
+#verify-code-input-wrapper {
+  width: 60%;
+}
+
+#verify-code-get-wrapper {
+  width: 40%;
+  padding-top: 25px;
+}

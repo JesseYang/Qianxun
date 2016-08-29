@@ -5,6 +5,15 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'client/welcome#index'
 
+  namespace :client do
+    resources :sessions do
+      collection do
+        get :password
+        get :new_registrate
+      end
+    end
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

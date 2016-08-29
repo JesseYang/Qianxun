@@ -9,7 +9,7 @@
       - if @current_user.present?
         %a.login-btn.btn.btn-success{href: "javascript:void(0);"} 云端平台
       - else
-        %a.login-btn.btn.btn-success{href: "javascript:void(0);"} 登录
+        %a.login-btn.btn.btn-success{href: new_client_session_path} 登录
         %a.registrate-btn.btn.btn-success{href: "javascript:void(0);"} 注册 
 
   #search-wrapper
@@ -24,6 +24,32 @@
       %a{href: "javascript:void(0);"} 创新层
       %a{href: "javascript:void(0);"} 游戏
       %a{href: "javascript:void(0);"} 餐饮旅游
+
+  #content-wrapper
+    %div
+      / Nav tabs
+      %ul#tabs.nav.nav-tabs{:role => "tablist"}
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#new_list", :role => "tab"} 最新挂牌
+        %li
+          %a{"data-toggle" => "tab", :href => "#new_finaning", :role => "tab"} 最新融资
+        %li
+          %a{"data-toggle" => "tab", :href => "#institution_feeds", :role => "tab"} 机构动向
+        %li
+          %a{"data-toggle" => "tab", :href => "#hot_topics", :role => "tab"} 热门概念
+        %li
+          %a{"data-toggle" => "tab", :href => "#innovation", :role => "tab"} 创新层
+        %li
+          %a{"data-toggle" => "tab", :href => "#market_feeds", :role => "tab"} 市场动态
+      / Tab panes
+      .tab-content
+        #new_list.tab-pane.active AAA
+        #new_financing.tab-pane BBB
+        #institution_feeds.tab-pane CCC
+        #hot_topics.tab-pane DDD
+        #innovation.tab-pane EEE
+        #market_feeds.tab-pane FFF
+
 
   #bottom-bar
     #beian 京ICP备XXXXXXX
