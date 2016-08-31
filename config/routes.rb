@@ -5,11 +5,20 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'client/welcome#index'
 
+  namespace :operator do
+    resources :tasks do
+    end
+  end
+
   namespace :client do
     resources :sessions do
       collection do
         get :password
-        get :new_registrate
+        get :signup_new
+        post :signup
+      end
+      member do
+        post :verify
       end
     end
   end

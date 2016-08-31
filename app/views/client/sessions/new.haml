@@ -4,19 +4,18 @@
 
 - content_for :content do
   .container
-    #login-wrapper.col-sm-4.col-sm-offset-4.col-xs-10.col-xs-offset-1
-      = form_tag(client_sessions_path, id: "client-login-form", method: "post", multipart: true) do
-        %fieldset
-          %legend 用户登录
-          .form-group
-            = label_tag :mobile_label, "手机"
-            = text_field_tag :mobile, params[:mobile], :autofocus => true, class: "form-control"
-          .form-group
-            = label_tag :password_label, "密码"
-            = password_field_tag :password, "", class: "form-control"
-          .content
-            .registrate.right
-              = link_to "没有帐号，立即注册", new_registrate_client_sessions_path
-            .forget-password.left
-              = link_to "忘记密码？", password_client_sessions_path
-          = submit_tag "登录", class: "btn btn-primary login-btn"
+    .form-wrapper.col-sm-4.col-sm-offset-4.col-xs-10.col-xs-offset-1
+      %fieldset
+        %legend 用户登录
+        .form-group
+          = label_tag :mobile_label, "手机"
+          = text_field_tag :mobile, params[:mobile], :autofocus => true, class: "form-control"
+        .form-group
+          = label_tag :password_label, "密码"
+          = password_field_tag :password, "", class: "form-control"
+        .content
+          .registrate.right
+            = link_to "没有帐号，立即注册", signup_new_client_sessions_path
+          .forget-password.left
+            = link_to "忘记密码？", password_client_sessions_path
+        %a#login-btn.btn.btn-primary{href: "javascript:void(0);"} 登录

@@ -6,8 +6,10 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
   before_filter :init
+  before_filter :set_flash
 
   attr_reader :current_user
+  helper_method :user_signed_in?, :current_user
 
   def retval_wrapper(value)
     retval = ErrCode.ret_false(value)
@@ -17,6 +19,14 @@ class ApplicationController < ActionController::Base
   def init
     @code = params[:code]
     refresh_session(params[:auth_key] || cookies[:auth_key])
+  end
+
+  def user_signed_in?
+    current_user.present?
+  end
+
+  def set_flash
+    @flash = params[:flash]
   end
 
   def refresh_session(auth_key)

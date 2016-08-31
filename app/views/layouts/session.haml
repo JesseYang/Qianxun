@@ -4,6 +4,6 @@
   = yield :head
 - content_for :app_content do
   #top-bar
-    =image_tag "logo.jpg", width: "50px", class: "logo-image"
+    = link_to( image_tag("logo.jpg", width: "50px", class: "logo-image"), "/")
   = yield :content
 = render :template => 'layouts/application'

@@ -1,0 +1,37 @@
+- content_for :app_head do
+  = stylesheet_link_tag "layouts/operator-layout", :media => "all"
+  = javascript_include_tag "layouts/operator-layout"
+  = yield :head
+- content_for :app_nav do
+  #operator-navbar
+    .container-fluid
+      %a.brand{href: "/"} 千询
+      %ul#operator-nav
+        %li
+          %a{href: "/operator/tasks/"} 任务列表
+        %li
+          %a{href: "/operator/tasks?type=mine"} 我的任务
+      %ul.nav.pull-right
+        %li
+          - if user_signed_in?
+            %a.qx-dropdown-toggle{href: "#"}
+              = current_user.mobile
+              %b.caret
+            .qx-dropdown-menu.hide
+              .qx-dropdown-item
+                %a{href: "#{}"} 个人设置
+              .qx-dropdown-item
+                %a{href: "/client/sessions/signout", data: {method: "delete"}, rel: "nofollow"} 退出
+          - else
+            %a.qx-dropdown-toggle{href: "#"}
+              帐号
+              %b.caret
+            .qx-dropdown-menu.hide
+              .qx-dropdown-item
+                %a{href: "/users/sign_in"} 登录
+              .qx-dropdown-item
+                %a{href: "/users/sign_up"} 注册
+- content_for :app_content do
+  = yield
+
+= render :template => 'layouts/application'

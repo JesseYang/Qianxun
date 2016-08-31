@@ -1,8 +1,15 @@
 class Client::SessionsController < Client::ApplicationController
   layout "layouts/session"
 
-  def new_registrate
-    
+  def signup
+    retval = User.create_user(User::CLIENT, params[:mobile])
+    render json: retval_wrapper(retval)
+  end
+
+  def verify
+    user = User.where(id: params[:id]).first
+    retval = user.nil? ? ErrCode::USER_NOT_EXIST : user.verify_client(params[:password], params[:verify_code])
+    render json: retval_wrapper(retval)
   end
 
   # show the index page
@@ -11,7 +18,7 @@ class Client::SessionsController < Client::ApplicationController
 
   # signin
   def create
-    retval = User.signin_staff(params[:mobile], params[:password])
+    retval = User.signin_client(params[:mobile], params[:password])
     if retval.class == Hash && retval[:auth_key].present?
       cookies[:auth_key] = {
         :value => retval[:auth_key],
@@ -19,19 +26,6 @@ class Client::SessionsController < Client::ApplicationController
         :domain => :all
       }
     end
-    render json: retval_wrapper(retval)
-  end
-
-  # verify code
-  def verify
-    user = User.where(id: params[:id]).first
-    retval = user.nil? ? ErrCode::USER_NOT_EXIST : user.verify_staff(params[:name], params[:center], params[:password], params[:verify_code])
-    render json: retval_wrapper(retval)
-  end
-
-  # create new staff user, params include mobile, return verify code
-  def signup
-    retval = User.create_user(User::STAFF, params[:mobile])
     render json: retval_wrapper(retval)
   end
 
