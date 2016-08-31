@@ -6,4 +6,8 @@ class Mission
 
   belongs_to :company
   belongs_to :do_missions
+
+  def self.generate_missions
+  	
+  end
 end

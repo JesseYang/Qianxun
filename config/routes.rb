@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root 'client/welcome#index'
 
   namespace :operator do
-    resources :tasks do
+    resources :missions do
     end
   end
 

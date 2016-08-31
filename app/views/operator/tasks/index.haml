@@ -1,9 +1,0 @@
-- content_for :head do
-  = javascript_include_tag "pages/operator/tasks/index-bundle"
-  = stylesheet_link_tag "pages/operator/tasks/index-bundle", :media => "all"
-
-
-#search-bar
-  #search-box
-    %input#input-search{:placeholder => "输入企业、行业、概念名称", :type => "text", :value => params[:keyword]}
-      %a#link-search{href: "javascript:void(0);"}
