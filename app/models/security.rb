@@ -9,4 +9,14 @@ class Security
   belongs_to :company
   belongs_to :exchange
   has_many :annual_reports
+
+  def security_info
+    {
+      id: self.id.to_s,
+      code: self.code,
+      list_date: self.list_date.strftime("%Y-%m-%d"),
+      name: self.name,
+      industry: s.company.company_industries[0].industry.industry_name
+    }
+  end
 end

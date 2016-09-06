@@ -11,15 +11,18 @@
 
 %table
   %tr.header
+    %th.column-listdata 挂牌日期
     %th.column-code 证券代码
     %th.column-name 证券名称
     %th.column-industry 行业
-    %th.column-listdata 挂牌日期
     %th.column-prospectus 公开转让说明书摘录
     %th.column-listdata 年报摘录
-  - @missions.each do |m|
-    %tr.record{data: {id: m.id.to_s}}
-      %td
+  - @securities_info.each do |s|
+    %tr.record{data: {id: s.id.to_s}}
+      %td= s[:list_date]
+      %td= s[:code]
+      %td= s[:name]
+      %td= s[:industry]
 
   <table data-pagetype={{type}}>
     <tr class=header>

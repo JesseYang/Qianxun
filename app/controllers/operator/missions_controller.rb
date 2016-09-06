@@ -1,7 +1,9 @@
-class Operator::MissionsksController < Operator::ApplicationController
+class Operator::MissionsController < Operator::ApplicationController
 
   def index
-    @misions = Company.limit(10)
+    securities = Security.limit(10)
+    @securities_info = securities.map do |e|
+      e.security_info
+    end
   end
-
 end
