@@ -14,4 +14,5 @@ class AnnualReport
   has_many :text_materials
   has_many :risks
   has_many :buisness_models
+  has_many :do_missions
 end

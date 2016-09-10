@@ -15,6 +15,7 @@ class Prospectus
   has_many :risks
   has_many :buisness_models
   has_many :competitions
+  has_many :do_missions
 
 
   def self.download_file

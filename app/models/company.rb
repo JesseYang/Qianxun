@@ -18,6 +18,6 @@ class Company
   has_many :buisness_models
   has_many :competitions
   has_many :competitor_competitions, class_name: "Competition", inverse_of: :competitor
-  has_many :missions
+  # has_many :missions
   has_many :dealer_securities, class_name: "DealerRelation", inverse_of: :dealer
 end

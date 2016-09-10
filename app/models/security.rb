@@ -16,7 +16,8 @@ class Security
       code: self.code,
       list_date: self.list_date.strftime("%Y-%m-%d"),
       name: self.name,
-      industry: s.company.company_industries[0].industry.industry_name
+      company_id: self.company_id.to_s,
+      industry: self.company.company_industries[0].industry.industry_name
     }
   end
 end
