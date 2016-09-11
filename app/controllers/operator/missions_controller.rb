@@ -8,7 +8,7 @@ class Operator::MissionsController < Operator::ApplicationController
         e.security_info
       end
     else
-      securities = Security.all
+      securities = Security.all.desc(:list_date)
       @securities = auto_paginate(securities)
       @securities[:data] = @securities[:data].map do |e|
         e.security_info
