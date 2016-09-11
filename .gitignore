@@ -16,3 +16,4 @@
 /config/mongoid.yml
 /.byebug_history
 /public/downloads
+/public/uploads/images/*

@@ -9,22 +9,40 @@
       %a#link-search{href: "javascript:void(0);"}
 
 
-%table
-  %tr.header
-    %th.column-listdata 挂牌日期
-    %th.column-code 证券代码
-    %th.column-name 证券名称
-    %th.column-industry 行业
-    %th.column-prospectus 公开转让说明书摘录
-    / %th.column-listdata 年报摘录
-  - @securities_info.each do |s|
-    %tr.record{data: {sid: s[:id], cid: s[:company_id]}}
-      %td= s[:list_date]
-      %td= s[:code]
-      %td= s[:name]
-      %td= s[:industry]
-      %td
-        = link_to "领取", "javascript:void(0);", class: "do-mission-link"
-      / %td
-      /   = link_to "领取", "javascript:void(0);" 
-   
+.table-wrapper.auto
+  - if @securities[:data].length == 0
+    .notice 没有符合条件的数据
+  - else
+    %table.table
+      %tr.header
+        %th.column-listdata 挂牌日期
+        %th.column-code 证券代码
+        %th.column-name 证券名称
+        %th.column-industry 行业
+        %th.column-prospectus 公开转让说明书摘录
+        / %th.column-listdata 年报摘录
+      - @securities[:data].each do |s|
+        %tr.record{data: {sid: s[:id], cid: s[:company_id]}}
+          %td= s[:list_date]
+          %td= s[:code]
+          %td= s[:name]
+          %td= s[:industry]
+          %td
+            - if params[:type] == "mine"
+              = link_to "详情", "/operator/missions/#{s[:mission_id]}"
+            - else
+              - if s[:prospectus_doing]
+                %span 已被领取
+              - else
+                = link_to "领取", "javascript:void(0);", class: "do-mission-link"
+       
+    .select-page 
+      / .spec= "共#{@securities[:total_page]}页,总计#{@securities[:total_number]}条"
+      %ul.pagination
+        %li
+          %a{:href => "/operator/missions?type=#{params[:type]}&page=#{@securities[:previous_page]}"} «
+        - ( (@securities[:previous_page] > 2 ? @securities[:previous_page] - 2 : 1) .. (@securities[:next_page] < @securities[:total_page] - 2 ? @securities[:next_page] + 2 : @securities[:total_page]) ).to_a.each do |page|
+          %li{class: page == @securities[:current_page] ? "active" : ""}
+            %a{:href => "/operator/missions?type=#{params[:type]}&page=#{page}"}= page
+        %li
+          %a{:href => "/operator/missions?type=#{params[:type]}&page=#{@securities[:next_page]}"} »

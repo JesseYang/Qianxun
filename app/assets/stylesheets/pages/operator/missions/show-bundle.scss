@@ -5,3 +5,49 @@
 @import "compass/css3";
 @import "compass/utilities/general/clearfix";
 @import "icons/tasks/*.png";
+
+.content-wrapper, .top-wrapper {
+	width: 80%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.block-wrapper {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.editor-area {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	height: 300px;
+}
+
+.one-line {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.sub-title {
+	margin-top: 15px;
+}
+
+.risk-name {
+	width: 20% !important;
+}
+
+.risk-desc {
+	width: 50% !important;
+}
+
+.risk-type {
+	width: 20% !important;
+}
+
+.business-mode-type {
+	width: 20% !important;
+}
+
+.business-mode-desc {
+	width: 70% !important;
+}

@@ -17,7 +17,8 @@ class Security
       list_date: self.list_date.strftime("%Y-%m-%d"),
       name: self.name,
       company_id: self.company_id.to_s,
-      industry: self.company.company_industries[0].industry.industry_name
+      industry: self.company.company_industries[0].try(:industry).try(:industry_name),
+      prospectus_doing: self.company.prospectuses[0].blank? ? false : self.company.prospectuses[0].do_missions.where(status: DoMission::DOING).first.present?
     }
   end
 end

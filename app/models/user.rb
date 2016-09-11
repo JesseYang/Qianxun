@@ -2,9 +2,6 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  CLIENT = 1
-  STAFF = 2
-
   field :type, type: Integer
   field :mobile, type: String
   field :password, type: String
@@ -12,17 +9,13 @@ class User
   field :verify_code, type: String
   field :auth_key, type: String
 
-  scope :client, ->{ where(type: CLIENT) }
-  scope :staff, ->{ where(type: STAFF) }
-
-
   def self.create_user(user_type, mobile)
     # 1. check whether user exists?
     u = User.where(mobile: mobile).first
     if u.present? && u.is_verified
       return ErrCode::USER_EXIST
     elsif u.blank?
-      u = User.create(type: user_type, mobile: mobile)
+      u = User.create(_type: user_type, mobile: mobile)
     end
 
     # 2. generate random code and save
@@ -49,7 +42,7 @@ class User
 
   def self.signin_client(mobile, password)
     # byebug
-    user = User.client.where(mobile: mobile).first
+    user = Client.where(mobile: mobile).first
     return ErrCode::USER_NOT_EXIST if user.nil?
     return ErrCode::USER_NOT_VERIFIED if user.is_verified == false
     return ErrCode::WRONG_PASSWORD if Encryption.encrypt_password(password) != user.password

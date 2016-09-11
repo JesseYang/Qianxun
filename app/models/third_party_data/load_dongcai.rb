@@ -224,7 +224,7 @@ class LoadDongcai
         if download_url.include?("file.neeq.com.cn")
           download_url.gsub!("file", "www")
         end
-
+=begin
         begin
           uuid = SecureRandom.uuid
           file_path = is_prospectus ? "public/downloads/prospectus/#{uuid}.pdf" : "public/downloads/annual_reports/#{uuid}.pdf"
@@ -238,6 +238,7 @@ class LoadDongcai
         rescue => err
           File.delete(file_path)
         end
+=end
       end
     end
   end

@@ -2,7 +2,7 @@ class Client::SessionsController < Client::ApplicationController
   layout "layouts/session"
 
   def signup
-    retval = User.create_user(User::CLIENT, params[:mobile])
+    retval = User.create_user("Client", params[:mobile])
     render json: retval_wrapper(retval)
   end
 
@@ -43,6 +43,6 @@ class Client::SessionsController < Client::ApplicationController
 
   def signout
     cookies.delete(:auth_key, :domain => :all)
-    redirect_to staff_sessions_path
+    redirect_to new_client_session_path
   end
 end

@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'client/welcome#index'
 
+  resources :materials do
+  end
+
   namespace :operator do
     resources :missions do
     end
@@ -16,6 +19,7 @@ Rails.application.routes.draw do
         get :password
         get :signup_new
         post :signup
+        delete :signout
       end
       member do
         post :verify

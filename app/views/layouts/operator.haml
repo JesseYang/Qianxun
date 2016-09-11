@@ -8,13 +8,13 @@
       %a.brand{href: "/"} 千询
       %ul#operator-nav
         %li
-          %a{href: "/operator/tasks/"} 任务列表
+          %a{href: "/operator/missions/"} 任务列表
         %li
-          %a{href: "/operator/tasks?type=mine"} 我的任务
+          %a{href: "/operator/missions?type=mine"} 我的任务
       %ul.nav.pull-right
         %li
           - if user_signed_in?
-            %a.qx-dropdown-toggle{href: "#"}
+            %a.qx-dropdown-toggle{href: "javascript:void(0);"}
               = current_user.mobile
               %b.caret
             .qx-dropdown-menu.hide
@@ -23,7 +23,7 @@
               .qx-dropdown-item
                 %a{href: "/client/sessions/signout", data: {method: "delete"}, rel: "nofollow"} 退出
           - else
-            %a.qx-dropdown-toggle{href: "#"}
+            %a.qx-dropdown-toggle{href: "javascript:void(0);"}
               帐号
               %b.caret
             .qx-dropdown-menu.hide

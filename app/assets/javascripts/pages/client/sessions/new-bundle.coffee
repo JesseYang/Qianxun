@@ -13,7 +13,7 @@ $ ->
       },
       (data) ->
         if data.success
-          location.href = "/"
+          location.href = "/operator/missions"
         else
           $.page_notification("帐号或密码错误")
       )

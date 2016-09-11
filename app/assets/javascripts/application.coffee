@@ -13,7 +13,6 @@
 #= require jquery
 #= require jquery-ui
 #= require jquery_ujs
-#= require turbolinks
 #= require utility/ajax
 #= require utility/console
 #= require utility/regex

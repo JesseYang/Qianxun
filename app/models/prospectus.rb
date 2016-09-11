@@ -2,7 +2,7 @@ require 'open-uri'
 class Prospectus
   include Mongoid::Document
   include Mongoid::Timestamps
-  field :structure, type: Array
+  field :structure, type: Array, default: [ ]
   field :published_at, type: Date
   field :name, type: String
   field :file_path, type: String
@@ -17,6 +17,36 @@ class Prospectus
   has_many :competitions
   has_many :do_missions
 
+  def self.years_for_select
+    hash = { }
+    (1990..2016).to_a.each do |y|
+      hash[y.to_s] = y.to_s
+    end
+    hash
+  end
+
+  def self.risks_for_select
+    hash = {
+      "请选择特定风险类型": -1,
+      "上游供应商资金风险": 1,
+      "下游客户关联风险": 2,
+      "资金链断裂风险": 4
+    }
+    hash
+  end
+
+  def self.business_modes_for_select
+    hash = {
+      "请选择商业模式": -1,
+      "商业模式": 1,
+      "盈利模式": 2,
+      "销售模式": 4,
+      "采购模式": 8,
+      "采购模式": 16,
+      "生产模式": 32
+    }
+    hash
+  end
 
   def self.download_file
     browser = Watir::Browser.new
@@ -80,5 +110,15 @@ class Prospectus
       end
 
     end
+  end
+
+  def get(type)
+    ele = self.structure.select { |e| e["key"] == type }
+    ele.present? ? ele[0]["content"] : nil
+  end
+
+  def get_base_year(type)
+    content = self.get("main_#{type}s")
+    (content.blank? ? Time.now.year : content.keys.map { |e| e.to_i } .max) .to_s
   end
 end
