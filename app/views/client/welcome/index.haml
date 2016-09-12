@@ -7,7 +7,7 @@
     =image_tag "logo.jpg", width: "50px", class: "logo-image"
     #login-btn-wrapper
       - if @current_user.present?
-        %a.login-btn.btn.btn-success{href: "javascript:void(0);"} 云端平台
+        %a.login-btn.btn.btn-success{href: "/operator/missions"} 云端平台
       - else
         %a.login-btn.btn.btn-success{href: new_client_session_path} 登录
         %a.registrate-btn.btn.btn-success{href: "javascript:void(0);"} 注册 
