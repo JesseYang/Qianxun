@@ -197,3 +197,12 @@ $ ->
       $(this).parent().next().slideUp()
       $(this).text("展开")
       $(this).addClass("is_hidden")
+
+  $(".ratio-input").blur ->
+    v = $(this).val()
+    if v.indexOf("%") != -1
+      v = v.substring(0, v.indexOf("%"))
+    else
+      if parseFloat(v) <= 1
+        v = parseFloat(v) * 100
+    $(this).val(v)

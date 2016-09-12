@@ -59,14 +59,14 @@
                   %span.index-span= (index + 1).to_s
                   %input.customer-name.form-control{placeholder: "客户全称", type: "text", value: e["name"]}/
                   %input.customer-value.form-control{placeholder: "销售金额（万元）", type: "text", value: e["value"]}/
-                  %input.customer-ratio.form-control{placeholder: "占比（%）", type: "text", value: e["ratio"]}/
+                  %input.customer-ratio.ratio-input.form-control{placeholder: "占比（%）", type: "text", value: e["ratio"]}/
               - if ((@prospectus.get("main_customers") || [[], [], []]).sort.reverse[i - 1][1] || []).length < 5
                 - (5 - ((@prospectus.get("main_customers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).times do |index|
                   .customer-wrapper.form-inline.one-line
                     %span.index-span= (index + 1 + ((@prospectus.get("main_customers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).to_s
                     %input.customer-name.form-control{placeholder: "客户全称", type: "text"}/
                     %input.customer-value.form-control{placeholder: "销售金额（万元）", type: "text"}/
-                    %input.customer-ratio.form-control{placeholder: "占比（%）", type: "text"}/
+                    %input.customer-ratio.ratio-input.form-control{placeholder: "占比（%）", type: "text"}/
   .block-wrapper.row
     .sub-title.col-md-2
       %span 主要经销商情况：
@@ -88,14 +88,14 @@
                   %span.index-span= (index + 1).to_s
                   %input.dealer-name.form-control{placeholder: "经销商全称", type: "text", value: e["name"]}/
                   %input.dealer-value.form-control{placeholder: "销售金额（万元）", type: "text", value: e["value"]}/
-                  %input.dealer-ratio.form-control{placeholder: "占比（%）", type: "text", value: e["ratio"]}/
+                  %input.dealer-ratio.ratio-input.form-control{placeholder: "占比（%）", type: "text", value: e["ratio"]}/
               - if ((@prospectus.get("main_dealers") || [[], [], []]).sort.reverse[i - 1][1] || []).length < 5
                 - (5 - ((@prospectus.get("main_dealers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).times do |index|
                   .dealer-wrapper.form-inline.one-line
                     %span.index-span= (index + 1 + ((@prospectus.get("main_dealers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).to_s
                     %input.dealer-name.form-control{placeholder: "经销商全称", type: "text"}/
                     %input.dealer-value.form-control{placeholder: "销售金额（万元）", type: "text"}/
-                    %input.dealer-ratio.form-control{placeholder: "占比（%）", type: "text"}/
+                    %input.dealer-ratio.ratio-input.form-control{placeholder: "占比（%）", type: "text"}/
   .block-wrapper.row
     .sub-title.col-md-2 主要供应商情况：
     .main-provider-wrapper.block.col-md-10
@@ -115,14 +115,14 @@
                   %span.index-span= (index + 1).to_s
                   %input.provider-name.form-control{placeholder: "供应商全称", type: "text", value: e["name"]}/
                   %input.provider-value.form-control{placeholder: "采购金额（万元）", type: "text", value: e["value"]}/
-                  %input.provider-ratio.form-control{placeholder: "占比（%）", type: "text", value: e["ratio"]}/
+                  %input.provider-ratio.ratio-input.form-control{placeholder: "占比（%）", type: "text", value: e["ratio"]}/
               - if ((@prospectus.get("main_providers") || [[], [], []]).sort.reverse[i - 1][1] || []).length < 5
                 - (5 - ((@prospectus.get("main_providers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).times do |index|
                   .provider-wrapper.form-inline.one-line
                     %span.index-span= (index + 1 + ((@prospectus.get("main_providers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).to_s
                     %input.provider-name.form-control{placeholder: "供应商全称", type: "text"}/
                     %input.provider-value.form-control{placeholder: "采购金额（万元）", type: "text"}/
-                    %input.provider-ratio.form-control{placeholder: "占比（%）", type: "text"}/
+                    %input.provider-ratio.ratio-input.form-control{placeholder: "占比（%）", type: "text"}/
   .block-wrapper.row
     .sub-title.col-md-2 商业模式：
     .business-modes-part-wrapper.block.col-md-10
