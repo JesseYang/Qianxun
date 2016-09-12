@@ -19,7 +19,7 @@
         - ( @prospectus.get("risks") || [ ] ).each do |risk|
           .risk-wrapper.form-inline.one-line
             %input.risk-name.form-control{placeholder: "风险名称", type: "text", value: risk["name"]}/
-            %input.risk-desc.form-control{placeholder: "风险描述", type: "text", value: risk["desc"]}/
+            %textarea.risk-desc.form-control{placeholder: "风险描述", rows: 1}= risk["desc"]
             = select_tag "center_id", options_for_select(Prospectus.risks_for_select, risk["type"]), class: "risk-type form-control"
             %button.btn.btn-danger.rm-risk{type: "button"} 删除
         - if ( @prospectus.get("risks") || [ ] ).length < 5
