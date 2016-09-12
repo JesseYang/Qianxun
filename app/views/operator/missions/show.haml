@@ -7,7 +7,7 @@
 .top-wrapper.auto.clearfix
   .left.l
     %span.f20= @company.name
-    = link_to "公开转让说明书下载", @prospectus.dongcai_url.gsub("file", "www"), target: "_blank"
+    = link_to "公开转让说明书下载", @prospectus.dongcai_url.gsub("file", "www"), target: "popup"
   .right.r
     %button.btn.btn-primary.submit-btn{:type => "button"} 提交
 
