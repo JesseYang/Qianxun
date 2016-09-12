@@ -13,7 +13,7 @@
 
 .content-wrapper.auto
   .block-wrapper.row
-    .sub-title.col-md-2 风险提示：
+    .sub-title.col-md-2 1/13 风险提示：
     .risks-part-wrapper.block.col-md-10
       .risks-wrapper
         - ( @prospectus.get("risks") || [ ] ).each do |risk|
@@ -26,13 +26,13 @@
           - (5 - ( @prospectus.get("risks") || [ ] ).length).times do
             .risk-wrapper.form-inline.one-line
               %input.risk-name.form-control{placeholder: "风险名称", type: "text"}/
-              %input.risk-desc.form-control{placeholder: "风险描述", type: "text"}/
+              %textarea.risk-desc.form-control{placeholder: "风险描述", rows: 1}
               = select_tag "center_id", options_for_select(Prospectus.risks_for_select), class: "risk-type form-control"
               %button.btn.btn-danger.rm-risk{type: "button"} 删除
       .risk-clone.hide
         .risk-wrapper.form-inline.one-line
           %input.risk-name.form-control{placeholder: "风险名称", type: "text"}/
-          %input.risk-desc.form-control{placeholder: "风险描述", type: "text"}/
+          %textarea.risk-desc.form-control{placeholder: "风险描述", rows: 1}
           = select_tag "center_id", options_for_select(Prospectus.risks_for_select), class: "risk-type form-control"
           %button.btn.btn-danger.rm-risk{type: "button"} 删除
       %button.btn.btn-success.add-risk.one-line{type: "button"} 增加一条
@@ -54,19 +54,23 @@
         .tab-content
           - (1..3).to_a.each do |i|
             %div{id: "main-customer-tab-#{i}", class: "tab-pane #{i == 1 ? "active" : ""}"}
-              - ((@prospectus.get("main_customers") || [[], [], []]).sort.reverse[i - 1][1] || []).each do |e|
+              - ((@prospectus.get("main_customers") || [[], [], []]).sort.reverse[i - 1][1] || []).each_with_index do |e, index|
                 .customer-wrapper.form-inline.one-line
+                  %span.index-span= (index + 1).to_s
                   %input.customer-name.form-control{placeholder: "客户全称", type: "text", value: e["name"]}/
                   %input.customer-value.form-control{placeholder: "销售金额（万元）", type: "text", value: e["value"]}/
                   %input.customer-ratio.form-control{placeholder: "占比（%）", type: "text", value: e["ratio"]}/
               - if ((@prospectus.get("main_customers") || [[], [], []]).sort.reverse[i - 1][1] || []).length < 5
-                - (5 - ((@prospectus.get("main_customers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).times do
+                - (5 - ((@prospectus.get("main_customers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).times do |index|
                   .customer-wrapper.form-inline.one-line
+                    %span.index-span= (index + 1 + ((@prospectus.get("main_customers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).to_s
                     %input.customer-name.form-control{placeholder: "客户全称", type: "text"}/
                     %input.customer-value.form-control{placeholder: "销售金额（万元）", type: "text"}/
                     %input.customer-ratio.form-control{placeholder: "占比（%）", type: "text"}/
   .block-wrapper.row
-    .sub-title.col-md-2 主要经销商情况：
+    .sub-title.col-md-2
+      %span 主要经销商情况：
+      = link_to "展开", "javascript:void(0);", class: "toggle-link is_hidden"
     .main-dealer-wrapper.block.col-md-10
       .main-dealer-base-wrapper.form-inline.one-line
         %span 选择基准年份
@@ -79,14 +83,16 @@
         .tab-content
           - (1..3).to_a.each do |i|
             %div{id: "main-dealer-tab-#{i}", class: "tab-pane #{i == 1 ? "active" : ""}"}
-              - ((@prospectus.get("main_dealers") || [[], [], []]).sort.reverse[i - 1][1] || []).each do |e|
+              - ((@prospectus.get("main_dealers") || [[], [], []]).sort.reverse[i - 1][1] || []).each_with_index do |e, index|
                 .dealer-wrapper.form-inline.one-line
+                  %span.index-span= (index + 1).to_s
                   %input.dealer-name.form-control{placeholder: "经销商全称", type: "text", value: e["name"]}/
                   %input.dealer-value.form-control{placeholder: "销售金额（万元）", type: "text", value: e["value"]}/
                   %input.dealer-ratio.form-control{placeholder: "占比（%）", type: "text", value: e["ratio"]}/
               - if ((@prospectus.get("main_dealers") || [[], [], []]).sort.reverse[i - 1][1] || []).length < 5
-                - (5 - ((@prospectus.get("main_dealers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).times do
+                - (5 - ((@prospectus.get("main_dealers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).times do |index|
                   .dealer-wrapper.form-inline.one-line
+                    %span.index-span= (index + 1 + ((@prospectus.get("main_dealers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).to_s
                     %input.dealer-name.form-control{placeholder: "经销商全称", type: "text"}/
                     %input.dealer-value.form-control{placeholder: "销售金额（万元）", type: "text"}/
                     %input.dealer-ratio.form-control{placeholder: "占比（%）", type: "text"}/
@@ -104,14 +110,16 @@
         .tab-content
           - (1..3).to_a.each do |i|
             %div{id: "main-provider-tab-#{i}", class: "tab-pane #{i == 1 ? "active" : ""}"}
-              - ((@prospectus.get("main_providers") || [[], [], []]).sort.reverse[i - 1][1] || []).each do |e|
+              - ((@prospectus.get("main_providers") || [[], [], []]).sort.reverse[i - 1][1] || []).each_with_index do |e, index|
                 .provider-wrapper.form-inline.one-line
+                  %span.index-span= (index + 1).to_s
                   %input.provider-name.form-control{placeholder: "供应商全称", type: "text", value: e["name"]}/
                   %input.provider-value.form-control{placeholder: "采购金额（万元）", type: "text", value: e["value"]}/
                   %input.provider-ratio.form-control{placeholder: "占比（%）", type: "text", value: e["ratio"]}/
               - if ((@prospectus.get("main_providers") || [[], [], []]).sort.reverse[i - 1][1] || []).length < 5
-                - (5 - ((@prospectus.get("main_providers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).times do
+                - (5 - ((@prospectus.get("main_providers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).times do |index|
                   .provider-wrapper.form-inline.one-line
+                    %span.index-span= (index + 1 + ((@prospectus.get("main_providers") || [[], [], []]).sort.reverse[i - 1][1] || []).length).to_s
                     %input.provider-name.form-control{placeholder: "供应商全称", type: "text"}/
                     %input.provider-value.form-control{placeholder: "采购金额（万元）", type: "text"}/
                     %input.provider-ratio.form-control{placeholder: "占比（%）", type: "text"}/
@@ -148,23 +156,23 @@
           .rival-wrapper.form-inline.one-line
             %input.rival-brand.form-control{:placeholder => "竞争品牌", :type => "text", value: rival["brand"]}/
             %input.rival-name.form-control{:placeholder => "竞争对手全称", :type => "text", value: rival["name"]}/
-            %input.rival-introduce.form-control{:placeholder => "竞争对手简介", :type => "text", value: rival["introduce"]}/
-            %input.rival-desc.form-control{:placeholder => "竞争对手描述", :type => "text", value: rival["desc"]}/
+            %textarea.rival-introduce.form-control{:placeholder => "竞争对手简介", :rows => 1 }= rival["introduce"]
+            %textarea.rival-desc.form-control{:placeholder => "竞争关系描述", :rows => 1 }= rival["desc"]
             %button.btn.btn-danger.rm-rival{:type => "button"} 删除
         - if ( @prospectus.get("rivals") || [ ] ).length < 3
           - (3 - ( @prospectus.get("rivals") || [ ] ).length).times do
             .rival-wrapper.form-inline.one-line
               %input.rival-brand.form-control{:placeholder => "竞争品牌", :type => "text"}/
               %input.rival-name.form-control{:placeholder => "竞争对手全称", :type => "text"}/
-              %input.rival-introduce.form-control{:placeholder => "竞争对手简介", :type => "text"}/
-              %input.rival-desc.form-control{:placeholder => "竞争对手描述", :type => "text"}/
+              %textarea.rival-introduce.form-control{:placeholder => "竞争对手简介", :rows => 1}
+              %textarea.rival-desc.form-control{:placeholder => "竞争关系描述", :rows => 1}
               %button.btn.btn-danger.rm-rival{:type => "button"} 删除
       .rival-clone.hide
         .rival-wrapper.form-inline.one-line
           %input.rival-brand.form-control{:placeholder => "竞争品牌", :type => "text"}/
           %input.rival-name.form-control{:placeholder => "竞争对手全称", :type => "text"}/
-          %input.rival-introduce.form-control{:placeholder => "竞争对手简介", :type => "text"}/
-          %input.rival-desc.form-control{:placeholder => "竞争对手描述", :type => "text"}/
+          %textarea.rival-introduce.form-control{:placeholder => "竞争对手简介", :rows => 1}
+          %textarea.rival-desc.form-control{:placeholder => "竞争关系描述", :rows => 1}
           %button.btn.btn-danger.rm-rival{:type => "button"} 删除
       %button.btn.btn-success.add-rival{:type => "button"} 增加一条
   .block-wrapper.row
@@ -172,9 +180,13 @@
     .advantage-part-wrapper.block.col-md-10
       #advantage-editor.editor-area= @prospectus.get("advantage").to_s.html_safe
   .block-wrapper.row
-    .sub-title.col-md-2 竞争劣势：
+    .sub-title.col-md-2 发展战略：
     .disadvantage-part-wrapper.block.col-md-10
       #disadvantage-editor.editor-area= @prospectus.get("disadvantage").to_s.html_safe
+  .block-wrapper.row
+    .sub-title.col-md-2 竞争劣势：
+    .strategy-part-wrapper.block.col-md-10
+      #strategy-editor.editor-area= @prospectus.get("strategy").to_s.html_safe
   .block-wrapper.row
     .sub-title.col-md-2 偿债能力分析：
     .solvency-part-wrapper.block.col-md-10
@@ -183,4 +195,7 @@
     .sub-title.col-md-2 营运能力分析：
     .operation-ability-part-wrapper.block.col-md-10
       #operation-ability-editor.editor-area= @prospectus.get("operation_ability").to_s.html_safe
-
+  .block-wrapper.row
+    .sub-title.col-md-2 现金流状况分析
+    .cash-flow-part-wrapper.block.col-md-10
+      #cash-flow-editor.editor-area= @prospectus.get("cash_flow").to_s.html_safe

@@ -27,7 +27,7 @@ class Prospectus
 
   def self.risks_for_select
     hash = {
-      "请选择特定风险类型": -1,
+      # "请选择特定风险类型": -1,
       "上游供应商资金风险": 1,
       "下游客户关联风险": 2,
       "资金链断裂风险": 4
@@ -43,7 +43,8 @@ class Prospectus
       "销售模式": 4,
       "采购模式": 8,
       "采购模式": 16,
-      "生产模式": 32
+      "生产模式": 32,
+      "研发模式": 64
     }
     hash
   end
@@ -119,6 +120,6 @@ class Prospectus
 
   def get_base_year(type)
     content = self.get("main_#{type}s")
-    (content.blank? ? Time.now.year : content.keys.map { |e| e.to_i } .max) .to_s
+    (content.blank? ? Time.now.year - 1 : content.keys.map { |e| e.to_i } .max) .to_s
   end
 end

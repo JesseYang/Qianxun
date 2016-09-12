@@ -15,8 +15,10 @@ $ ->
   market_space_editor = create_editor('market-space-editor')
   advantage_editor = create_editor('advantage-editor')
   disadvantage_editor = create_editor('disadvantage-editor')
+  strategy_editor = create_editor('strategy-editor')
   solvency_editor = create_editor('solvency-editor')
   operation_ability_editor = create_editor('operation-ability-editor')
+  cash_flow_editor = create_editor('cash-flow-editor')
 
   $(document).on(
     "click",
@@ -147,16 +149,20 @@ $ ->
         introduce: $(this).find(".rival-introduce").val()
         desc: $(this).find(".rival-desc").val()
       }
-      if rival["brand"] != ""
+      if rival["brand"] != "" || rival["name"] != ""
         rivals.push(rival)
 
     advantage = advantage_editor.$txt.html()
 
     disadvantage = disadvantage_editor.$txt.html()
 
+    strategy = strategy_editor.$txt.html()
+
     solvency = solvency_editor.$txt.html()
 
     operation_ability = operation_ability_editor.$txt.html()
+
+    cash_flow = cash_flow_editor.$txt.html()
 
     $.putJSON(
       '/operator/missions/' + window.mid,
@@ -171,10 +177,23 @@ $ ->
         rivals: rivals
         advantage: advantage
         disadvantage: disadvantage
+        strategy: strategy
         solvency: solvency
         operation_ability: operation_ability
+        cash_flow: cash_flow
       },
       (data) ->
         $.page_notification("数据已更新")
       )
 
+
+  $(".main-dealer-wrapper").hide()
+  $(".toggle-link").click ->
+    if $(this).hasClass("is_hidden")
+      $(this).parent().next().slideDown()
+      $(this).text("收起")
+      $(this).removeClass("is_hidden")
+    else
+      $(this).parent().next().slideUp()
+      $(this).text("展开")
+      $(this).addClass("is_hidden")
