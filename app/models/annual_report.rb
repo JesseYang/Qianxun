@@ -4,7 +4,9 @@ class AnnualReport
   field :year, type: Integer
   field :structure, type: Array
   field :published_at, type: Date
-  field :filename, type: String
+  field :name, type: String
+  field :file_path, type: String
+  field :dongcai_url, type: String
 
   belongs_to :company
   belongs_to :security
@@ -12,4 +14,5 @@ class AnnualReport
   has_many :text_materials
   has_many :risks
   has_many :buisness_models
+  has_many :do_missions
 end

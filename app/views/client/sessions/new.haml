@@ -1,0 +1,21 @@
+- content_for :head do
+  = javascript_include_tag "pages/client/sessions/new-bundle"
+  = stylesheet_link_tag "pages/client/sessions/new-bundle", :media => "all"
+
+- content_for :content do
+  .container
+    .form-wrapper.col-sm-4.col-sm-offset-4.col-xs-10.col-xs-offset-1
+      %fieldset
+        %legend 用户登录
+        .form-group
+          = label_tag :mobile_label, "手机"
+          = text_field_tag :mobile, params[:mobile], :autofocus => true, class: "form-control"
+        .form-group
+          = label_tag :password_label, "密码"
+          = password_field_tag :password, "", class: "form-control"
+        .content
+          .registrate.right
+            = link_to "没有帐号，立即注册", signup_new_client_sessions_path
+          .forget-password.left
+            = link_to "忘记密码？", password_client_sessions_path
+        %a#login-btn.btn.btn-primary{href: "javascript:void(0);"} 登录

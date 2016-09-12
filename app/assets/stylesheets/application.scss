@@ -1,0 +1,115 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ */
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "compass";
+@import "common";
+@import 'ui/widgets/notification';
+@import "icons/browser/*.png";
+
+body {
+  min-width: 1000px;
+}
+
+#footer-prev {
+  height: 70px;
+}
+
+#browser {
+  display: none;
+  background: $yellow-light;
+  padding: 5px;
+  font-size: 14px;
+  a {
+    @include square(64px);
+    margin: 10px;
+    &.ie { @include browser-sprite(ie); }
+    &.firefox { @include browser-sprite(firefox); }
+    &.chrome { @include browser-sprite(chrome); }
+  }
+}
+
+.sub-banner {
+  margin-top: -40px;
+  margin-bottom: 20px;
+  background: white;
+  height: 90px;
+  border: 1px solid #cccccc;
+  @include border-radius(10px);
+  .wrap {
+    padding-top: 20px;
+  }
+  h2 {
+    display: inline-block;
+    width: 40%;
+    font-family: "Microsoft YaHei";
+    margin-left: 4%;
+  }
+  .title-edit {
+    display: inline-block;
+    width: 40%;
+    font-family: "Microsoft YaHei";
+    margin-left: 4%;
+    margin-top: 15px;
+    input {
+      width: 27%;
+      display: inline-block;
+    }
+  }
+  ul {
+    margin-top: 30px;
+    padding-right: 60px;
+    float: right;
+    li {
+      width: 80px;
+      float: left;
+      list-style-type: none;
+      a {
+        display: block;
+        text-align: center;
+      }
+      em {
+        line-height: 66px;
+        font-size: 1.6em;
+      }
+    }
+  }
+}
+
+.btn-bottom {
+  margin: 10px;
+}
+
+#sign {
+  .nav-tabs {
+    margin-bottom: 15px;
+  }
+}
+
+.clear-both {
+  clear: both;
+}
+
+.search-bar {
+  padding-bottom: 5px;
+}
+
+.static-link {
+  color: black;
+}
+
+.scroll {
+  overflow: auto;
+}

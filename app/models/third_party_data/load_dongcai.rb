@@ -18,12 +18,16 @@ class LoadDongcai
     offset = 0
     import_number = 0
     update_number = 0
-    batch = @load_record.nil? ? OrgaBiOrgbaseinfo.all : new_data = OrgaBiOrgbaseinfo.where(UPDATEDATE: @load_record.updated_at..Date.today)
+    batch = @load_record.nil? ? OrgaBiOrgbaseinfo.all : OrgaBiOrgbaseinfo.where(UPDATEDATE: @load_record.updated_at..Date.today)
     batch_info = []
     batch.each do |e|
       # load or update this record
       c = ChnCompany.where(dongcai_code: e.COMPANYCODE).first
-      # c = c.nil? ? ChnCompany.create(dongcai_code: e.COMPANYCODE) : c
+      date = nil
+      begin
+        date = Date.new(* e.FOUNDDATE.split('-').map { |ele| ele.to_i })
+      rescue
+      end
       info = { # update data from dongcai record to our record
           dongcai_code: e.COMPANYCODE,
           name: e.COMPANYNAME,
@@ -31,7 +35,8 @@ class LoadDongcai
           abbrev: c.try(:abbrev).blank? ? e.COMPANYSNAME : "#{c.abbrev},#{e.COMPANYSNAME}",
           country_code: "86",
           organization_form: e.ORGFORM.to_i,
-          established_at: e.FOUNDDATE.nil? ? nil : Date.new(* e.FOUNDDATE.split('-').map { |ele| ele.to_i }),
+          # established_at: e.FOUNDDATE.nil? ? nil : Date.new(* e.FOUNDDATE.split('-').map { |ele| ele.to_i }),
+          established_at: date,
           reg_capital: e.REGCAPITAL.to_f,
           legal_person: e.LEGREPRESENT,
           reg_code: e.BLNUMB, # YingYeZhiZhao No.
@@ -80,8 +85,8 @@ class LoadDongcai
         puts e.COMPANYCODE
         # s = c.securities.create(_type: "NeeqSecurity")
         info[:company_id] = c.id
-        info[:created_at] = Time.now,
-        info[:updated_at] = Time.now,
+        info[:created_at] = Time.now
+        info[:updated_at] = Time.now
         batch_info << info
         # s.exchange = exchange
         import_number = import_number + 1
@@ -89,16 +94,6 @@ class LoadDongcai
         update_number = update_number + 1
         s.update_attributes(info)
       end
-=begin
-      s.update_attributes(
-        {
-          name: e.SECURITYNAME,
-          code: e.SECURITYCODE,
-          list_date: e.LISTDATE,
-          delist_date: e.ENDDATE
-        }
-      )
-=end
     end
     NeeqSecurity.collection.insert_many(batch_info)
     puts "import #{import_number}, update #{update_number}"
@@ -115,15 +110,14 @@ class LoadDongcai
         d = ChnDealerCompany.create(dongcai_code: e.COMPANYCODE).first
         import_number = import_number + 1
       else
-        d._type = "ChnDealerCompany"
-        d.update_attribute(_type: "ChnDealerCompany")
+        d.update_attribute(:_type, "ChnDealerCompany")
         d = ChnDealerCompany.where(id: d.id).first
         update_number = update_number + 1
       end
       d.update_attributes(
         {
           license_code: e.LICENSECODE,
-          security_buisness: e.SECURITYBUS
+          security_business: e.SECURITYBUS
         }
       )
     end
@@ -180,10 +174,73 @@ class LoadDongcai
   end
 
   def self.load_reports
-    NeeqSecurity.all.each do |e|
-      infos = InfoAnRelcodesemk.where(SECURITYCODE: e.code)
-      info_code = infos.map { |e| e.INFOCODE }
-      InfoAnRelcolumnsemk.where(INFOCODE: info_code, COLUMNCODE: "001001001001001")
+
+=begin
+    browser = Watir::Browser.new
+    browser.goto 'http://www.neeq.com.cn/disclosure/announcement.html'
+    browser.text_field(id: 'startDate').set '2012-01-01'
+    page = Nokogiri::HTML.parse(browser.html)
+          browser.text_field(id: 'keyword').set '公开转让'
+          browser.link(:text => "查询").click
+=end
+    
+    exchange = Exchange.where(name: "全国中小企业股份转让系统").first
+    if exchange.nil?
+      puts "error, cannot find the correct exchange !!"
+      return false
+    end
+    Security.all.each do |s|
+      company_code = s.company.dongcai_code
+      # puts company_code
+      c = s.company
+      next if c.prospectuses.length > 0
+      infos = InfoAnRelcodesemk.where(COMPAYCODE: company_code)
+      infos.each do |info|
+        info_code = info.INFOCODE
+        v = InfoAnRelcolumnsemk.where(INFOCODE: info_code).first
+        next if v.nil?
+        # puts v.COLUMNCODE
+        ele = nil
+        is_prospectus = nil
+        if v.COLUMNNAME == "公开转让说明书"
+          data = InfoAnBasinfosemk.where(INFOCODE: info_code).first
+          name = data.try(:NOTICETITLE)
+          next if name.blank?
+          ele = Prospectus.create(name: name, exchange_id: exchange.id, company_id: s.company.id, published_at: data.NOTICEDATE)
+          is_prospectus = true
+        elsif v.COLUMNNAME == "年度报告全文"
+          data = InfoAnBasinfosemk.where(INFOCODE: info_code).first
+          name = data.try(:NOTICETITLE)
+          next if name.blank?
+          ele = AnnualReport.create(name: name, security_id: s.id, company_id: s.company.id, published_at: data.NOTICEDATE)
+          is_prospectus = false
+        else
+          next
+        end
+        download_info = InfoAnBasinfosemk.where(INFOCODE: info_code).first
+        next if download_info.nil?
+        download_url = download_info.SOURCEURL
+        ele.update_attribute(:dongcai_url, download_url)
+        if download_url.include?("file.neeq.com.cn")
+          download_url.gsub!("file", "www")
+        end
+=begin
+        begin
+          uuid = SecureRandom.uuid
+          file_path = is_prospectus ? "public/downloads/prospectus/#{uuid}.pdf" : "public/downloads/annual_reports/#{uuid}.pdf"
+          File.open(file_path, "wb") do |saved_file|
+            # the following "open" is provided by open-uri
+            open(download_url, "rb") do |read_file|
+              saved_file.write(read_file.read)
+            end
+          end
+          ele.update_attribute(:file_path, file_path)
+        rescue => err
+          File.delete(file_path)
+        end
+=end
+      end
     end
   end
 end
+

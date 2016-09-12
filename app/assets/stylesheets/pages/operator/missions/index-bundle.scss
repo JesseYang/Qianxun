@@ -1,0 +1,43 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "icons/tasks/*.png";
+
+#search-bar {
+  width: 100%;
+  height: 50px;
+  background: #FAFAFA;
+  @include box-shadow(gray 0px 0px 5px);
+  border-bottom: 1px #CCCCCC solid;
+  border-top: 1px solid #E5E5E5;
+
+  #search-box {
+    padding: 10px;
+    float: right;
+    margin-right: 40px;
+    #input-search {
+      @include one-line(26px);
+    }
+    a {
+      @include inline-block;
+      @include size(47px, 26px);
+      @include tasks-sprite(search_button);
+    }
+  }
+}
+
+.table-wrapper {
+  width: 80%;
+  margin-top: 20px;
+}
+
+.select-page {
+  text-align: right;
+  margin: 10px 20px 0 0;
+  padding-bottom: 5px;
+  .spec {
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
