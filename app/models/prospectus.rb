@@ -49,6 +49,14 @@ class Prospectus
     hash
   end
 
+  def self.units_for_select
+    hash = {
+      "元": 1,
+      "万元": 10000
+    }
+    hash
+  end
+
   def self.download_file
     browser = Watir::Browser.new
     browser.goto 'http://www.neeq.com.cn/disclosure/announcement.html'
