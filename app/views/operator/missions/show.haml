@@ -71,7 +71,7 @@
     .sub-title.col-md-2
       %span 主要经销商情况：
       = link_to "展开", "javascript:void(0);", class: "toggle-link is_hidden"
-    .main-dealer-wrapper.block.col-md-10
+    .main-dealer-wrapper.block.col-md-10.default-hide
       .main-dealer-base-wrapper.form-inline.one-line
         %span 选择基准年份
         = select_tag "base_year", options_for_select(Prospectus.years_for_select, @prospectus.get_base_year("dealer")), class: "base-year form-control"

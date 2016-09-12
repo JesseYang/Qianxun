@@ -187,7 +187,7 @@ $ ->
       )
 
 
-  $(".main-dealer-wrapper").hide()
+  $(".default-hide").hide()
   $(".toggle-link").click ->
     if $(this).hasClass("is_hidden")
       $(this).parent().next().slideDown()
