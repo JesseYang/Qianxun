@@ -1,6 +1,6 @@
 - content_for :head do
-  = javascript_include_tag "pages/operator/missions/show-bundle"
-  = stylesheet_link_tag "pages/operator/missions/show-bundle", :media => "all"
+  = javascript_include_tag "pages/operator/missions/edit-bundle"
+  = stylesheet_link_tag "pages/operator/missions/edit-bundle", :media => "all"
   :javascript
     window.mid = "#{@do_mission.id.to_s}"
 
@@ -13,7 +13,7 @@
 
 .content-wrapper.auto
   .block-wrapper.row
-    .sub-title.col-md-2 1/13 风险提示：
+    .sub-title.col-md-2 1/14 风险提示：
     .risks-part-wrapper.block.col-md-10
       .risks-wrapper
         - ( @prospectus.get("risks") || [ ] ).each do |risk|
@@ -37,11 +37,11 @@
           %button.btn.btn-danger.rm-risk{type: "button"} 删除
       %button.btn.btn-success.add-risk.one-line{type: "button"} 增加一条
   .block-wrapper.row
-    .sub-title.col-md-2 主营业务：
+    .sub-title.col-md-2 2/14 主营业务：
     .main-business-part-wrapper.block.col-md-10
       #main-business-editor.editor-area= @prospectus.get("main_business").to_s.html_safe
   .block-wrapper.row
-    .sub-title.col-md-2 主要客户情况：
+    .sub-title.col-md-2 3/14 主要客户情况：
     .main-customer-wrapper.block.col-md-10
       .main-customer-base-wrapper.form-inline.one-line
         %span 选择基准年份
@@ -69,7 +69,8 @@
                     %input.customer-ratio.ratio-input.form-control{placeholder: "占比（%）", type: "text"}/
   .block-wrapper.row
     .sub-title.col-md-2
-      %span 主要经销商情况：
+      %span 4/14 主要经销商情况：
+      %br
       = link_to "展开", "javascript:void(0);", class: "toggle-link is_hidden"
     .main-dealer-wrapper.block.col-md-10.default-hide
       .main-dealer-base-wrapper.form-inline.one-line
@@ -97,7 +98,7 @@
                     %input.dealer-value.form-control{placeholder: "销售金额（万元）", type: "text"}/
                     %input.dealer-ratio.ratio-input.form-control{placeholder: "占比（%）", type: "text"}/
   .block-wrapper.row
-    .sub-title.col-md-2 主要供应商情况：
+    .sub-title.col-md-2 5/14 主要供应商情况：
     .main-provider-wrapper.block.col-md-10
       .main-provider-base-wrapper.form-inline.one-line
         %span 选择基准年份
@@ -124,32 +125,32 @@
                     %input.provider-value.form-control{placeholder: "采购金额（万元）", type: "text"}/
                     %input.provider-ratio.ratio-input.form-control{placeholder: "占比（%）", type: "text"}/
   .block-wrapper.row
-    .sub-title.col-md-2 商业模式：
+    .sub-title.col-md-2 6/14 商业模式：
     .business-modes-part-wrapper.block.col-md-10
       .business-modes-wrapper
         - ( @prospectus.get("business_modes") || [] ).each do |business_mode|
           .business-mode-wrapper.form-inline.one-line
             = select_tag "business_mode", options_for_select(Prospectus.business_modes_for_select, business_mode["type"]), class: "business-mode-type form-control"
-            %input.business-mode-desc.form-control{:placeholder => "内容描述", :type => "text", value: business_mode["desc"]}/
-            %button.btn.btn-danger.rm-business-mode{:type => "button"} 删
+            %textarea.business-mode-desc.form-control{:placeholder => "内容描述", :rows => 1}= business_mode["desc"]
+            %button.btn.btn-danger.rm-business-mode{:type => "button"} 删除
         - if ( @prospectus.get("business_modes") || [] ).length < 3
           - (3 - ( @prospectus.get("business_modes") || []).length ).times do
             .business-mode-wrapper.form-inline.one-line
               = select_tag "business_mode", options_for_select(Prospectus.business_modes_for_select, -1), class: "business-mode-type form-control"
-              %input.business-mode-desc.form-control{:placeholder => "内容描述", :type => "text"}/
+              %textarea.business-mode-desc.form-control{:placeholder => "内容描述", :rows => 1}
               %button.btn.btn-danger.rm-business-mode{:type => "button"} 删除
       .business-mode-clone.hide
         .business-mode-wrapper.form-inline.one-line
           = select_tag "business_mode", options_for_select(Prospectus.business_modes_for_select, -1), class: "business-mode-type form-control"
-          %input.business-mode-desc.form-control{:placeholder => "内容描述", :type => "text"}/
+          %textarea.business-mode-desc.form-control{:placeholder => "内容描述", :rows => 1}
           %button.btn.btn-danger.rm-business-mode{:type => "button"} 删除
       %button.btn.btn-success.add-business-mode{:type => "button"} 增加一条
   .block-wrapper.row
-    .sub-title.col-md-2 市场空间：
+    .sub-title.col-md-2 7/14 市场空间：
     .market-space-part-wrapper.block.col-md-10
       #market-space-editor.editor-area= @prospectus.get("market_space").to_s.html_safe
   .block-wrapper.row
-    .sub-title.col-md-2 竞争对手：
+    .sub-title.col-md-2 8/14 竞争对手：
     .rivals-pat-wrapper.block.col-md-10
       .rivals-wrapper
         - ( @prospectus.get("rivals") || [ ] ).each do |rival|
@@ -176,26 +177,26 @@
           %button.btn.btn-danger.rm-rival{:type => "button"} 删除
       %button.btn.btn-success.add-rival{:type => "button"} 增加一条
   .block-wrapper.row
-    .sub-title.col-md-2 竞争优势：
+    .sub-title.col-md-2 9/14 竞争优势：
     .advantage-part-wrapper.block.col-md-10
       #advantage-editor.editor-area= @prospectus.get("advantage").to_s.html_safe
   .block-wrapper.row
-    .sub-title.col-md-2 发展战略：
+    .sub-title.col-md-2 10/14 发展战略：
     .disadvantage-part-wrapper.block.col-md-10
       #disadvantage-editor.editor-area= @prospectus.get("disadvantage").to_s.html_safe
   .block-wrapper.row
-    .sub-title.col-md-2 竞争劣势：
+    .sub-title.col-md-2 11/14 竞争劣势：
     .strategy-part-wrapper.block.col-md-10
       #strategy-editor.editor-area= @prospectus.get("strategy").to_s.html_safe
   .block-wrapper.row
-    .sub-title.col-md-2 偿债能力分析：
+    .sub-title.col-md-2 12/14 偿债能力分析：
     .solvency-part-wrapper.block.col-md-10
       #solvency-editor.editor-area= @prospectus.get("solvency").to_s.html_safe
   .block-wrapper.row
-    .sub-title.col-md-2 营运能力分析：
+    .sub-title.col-md-2 13/14 营运能力分析：
     .operation-ability-part-wrapper.block.col-md-10
       #operation-ability-editor.editor-area= @prospectus.get("operation_ability").to_s.html_safe
   .block-wrapper.row
-    .sub-title.col-md-2 现金流状况分析
+    .sub-title.col-md-2 14/14 现金流状况分析
     .cash-flow-part-wrapper.block.col-md-10
       #cash-flow-editor.editor-area= @prospectus.get("cash_flow").to_s.html_safe

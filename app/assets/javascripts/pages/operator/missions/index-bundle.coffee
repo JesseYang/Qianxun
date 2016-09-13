@@ -10,7 +10,7 @@ $ ->
       },
       (data) ->
         if data.success
-          location.href = "/operator/missions/" + data.id
+          location.href = "/operator/missions/" + data.id + "/edit"
         else
           $.page_notification("服务器出错，请稍后再试")
     )

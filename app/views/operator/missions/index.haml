@@ -29,7 +29,7 @@
           %td= s[:industry]
           %td
             - if params[:type] == "mine"
-              = link_to "详情", "/operator/missions/#{s[:mission_id]}"
+              = link_to "详情", "/operator/missions/#{s[:mission_id]}/edit"
             - else
               - if s[:prospectus_doing]
                 %span 已被领取

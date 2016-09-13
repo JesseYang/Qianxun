@@ -27,6 +27,9 @@ class Operator::MissionsController < Operator::ApplicationController
   end
 
   def show
+  end
+
+  def edit
     @do_mission = DoMission.where(id: params[:id]).first
     @prospectus = @do_mission.prospectus
     @company = @prospectus.company
